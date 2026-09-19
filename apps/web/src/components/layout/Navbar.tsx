@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Shield } from 'lucide-react'
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
+import { WalletButton } from '@/components/common/WalletButton'
 
 interface NavbarProps {
   showBackToDashboard?: boolean
@@ -46,7 +46,7 @@ export function Navbar({
             </Link>
           )}
 
-          <WalletMultiButton />
+          <WalletButton />
         </div>
       </div>
     </nav>

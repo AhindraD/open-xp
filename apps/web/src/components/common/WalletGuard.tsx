@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react'
 import { KeyRound } from 'lucide-react'
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
+import { WalletButton } from '@/components/common/WalletButton'
 
 interface WalletGuardProps {
   title?: string
@@ -22,7 +22,7 @@ export function WalletGuard({
       </div>
       <h2 className="mb-2 text-xl font-bold text-foreground">{title}</h2>
       <p className="mb-6 text-sm text-muted-foreground max-w-md leading-relaxed">{description}</p>
-      <WalletMultiButton />
+      <WalletButton />
     </div>
   )
 }

@@ -156,6 +156,7 @@ export function useCreateExam() {
     statusMessage,
     createdS3Uri,
     handleCreate,
-    connected,
+    connected: Boolean(connected || !!publicKey),
+    publicKey,
   }
 }

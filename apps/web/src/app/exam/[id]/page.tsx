@@ -19,7 +19,8 @@ import { useExamEvaluation } from '@/hooks/useExamEvaluation'
 export default function ExamPage() {
   const params = useParams()
   const examId = (params?.id as string) ?? 'CS101-FINAL-2026'
-  const { connected } = useWallet()
+  const { connected, publicKey } = useWallet()
+  const isWalletConnected = Boolean(connected || !!publicKey)
 
   const {
     step,
@@ -43,7 +44,7 @@ export default function ExamPage() {
       <div className="mx-auto max-w-5xl px-6 py-10 w-full flex-1">
         <ExamHeader examId={examId} />
 
-        {!connected ? (
+        {!isWalletConnected ? (
           <WalletGuard
             title="Student Wallet Required"
             description="Connect your Solana wallet to decrypt questions in-memory and sign your cryptographic submission receipt."
