@@ -21,20 +21,20 @@ export function ExamQuestionsForm({
 }: ExamQuestionsFormProps) {
   return (
     <div className="space-y-6">
-      <div className="glass rounded-2xl p-4 border border-border/60 flex items-center justify-between text-xs text-muted-foreground">
+      <div className="rounded-none p-3.5 border border-zinc-800 bg-[#0c0d10]/90 flex items-center justify-between text-xs font-mono text-zinc-400">
         <span className="flex items-center gap-2">
-          <Cloud className="h-4 w-4 text-primary" /> Questions Decrypted In-Memory (Zero disk persistence)
+          <Cloud className="h-4 w-4 text-zinc-300" /> IN-MEMORY DECRYPTED // ZERO PERSISTENCE
         </span>
-        <span>{questions.length} Subjective Questions</span>
+        <span>{questions.length} SUBJECTIVE QUESTIONS</span>
       </div>
 
       {questions.map((q, idx) => (
-        <div key={q.id} className="glass rounded-2xl p-6 border border-border/60">
+        <div key={q.id} className="rounded-none p-6 border border-zinc-800 bg-[#0c0d10]/95">
           <div className="flex items-start gap-3 mb-4">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-xs font-bold text-primary">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-none bg-zinc-900 border border-zinc-700 text-xs font-mono font-bold text-zinc-200">
               {idx + 1}
             </span>
-            <p className="text-sm font-medium leading-relaxed">{q.text}</p>
+            <p className="text-sm font-medium text-white leading-relaxed">{q.text}</p>
           </div>
 
           <textarea
@@ -44,7 +44,7 @@ export function ExamQuestionsForm({
             disabled={step !== 'answering'}
             placeholder="Enter your comprehensive subjective answer here..."
             rows={5}
-            className="w-full resize-none rounded-xl border border-border bg-background/50 p-4 text-sm leading-relaxed placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all disabled:opacity-50 min-h-[130px]"
+            className="w-full resize-none rounded-none border border-zinc-800 bg-zinc-950/80 p-4 text-sm font-sans leading-relaxed text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-400 transition-all disabled:opacity-50 min-h-[130px]"
           />
         </div>
       ))}
@@ -55,22 +55,22 @@ export function ExamQuestionsForm({
           id="submit-exam-btn"
           onClick={onSubmit}
           disabled={step !== 'answering'}
-          className="inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 text-sm font-semibold text-primary-foreground hover:brightness-110 transition-all hover:shadow-xl hover:shadow-primary/30 disabled:opacity-50"
+          className="inline-flex items-center justify-center gap-2 rounded-none border border-white bg-white px-8 py-4 text-xs font-bold uppercase tracking-wider text-black hover:bg-zinc-200 hover:border-zinc-200 transition-all shadow-md active:scale-[0.99] disabled:opacity-50"
         >
           {step === 'answering' ? (
             <>
-              <Send className="h-4 w-4" />
-              Submit to DynamoDB &amp; Sign On-Chain
+              <Send className="h-4 w-4 text-black" />
+              <span>SUBMIT TO DYNAMODB &amp; SIGN ON-CHAIN</span>
             </>
           ) : step === 'submitting-api' ? (
             <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Saving to DynamoDB...
+              <Loader2 className="h-4 w-4 animate-spin text-black" />
+              <span>SAVING TO DYNAMODB...</span>
             </>
           ) : (
             <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Awaiting Solana Wallet Signature...
+              <Loader2 className="h-4 w-4 animate-spin text-black" />
+              <span>AWAITING SOLANA SIGNATURE...</span>
             </>
           )}
         </button>

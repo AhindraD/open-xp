@@ -19,7 +19,7 @@ export function ExamStepIndicator({ currentStep }: ExamStepIndicatorProps) {
   const currentIndex = stepOrder.indexOf(currentStep)
 
   return (
-    <div className="flex items-center gap-2 mb-8">
+    <div className="flex items-center gap-2 mb-8 border border-zinc-800 bg-[#0c0d10]/80 p-3">
       {STEPS.map((s, i) => {
         const thisIndex = stepOrder.indexOf(s.key)
         const isActive = thisIndex === currentIndex
@@ -28,27 +28,27 @@ export function ExamStepIndicator({ currentStep }: ExamStepIndicatorProps) {
         return (
           <div key={s.key} className="flex items-center gap-2 flex-1">
             <div
-              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${
+              className={`flex h-6 w-6 items-center justify-center rounded-none text-[11px] font-mono font-bold transition-all ${
                 isDone
-                  ? 'bg-primary text-primary-foreground'
+                  ? 'bg-white text-black border border-white'
                   : isActive
-                    ? 'bg-primary/20 text-primary border-2 border-primary'
-                    : 'bg-secondary text-muted-foreground'
+                    ? 'bg-zinc-800 text-white border border-zinc-400'
+                    : 'bg-zinc-900 text-zinc-600 border border-zinc-800'
               }`}
             >
-              {isDone ? <Check className="h-4 w-4" /> : i + 1}
+              {isDone ? <Check className="h-3 w-3" /> : i + 1}
             </div>
             <span
-              className={`text-xs font-medium hidden sm:inline ${
-                isActive ? 'text-foreground font-semibold' : 'text-muted-foreground'
+              className={`text-[11px] font-mono hidden sm:inline ${
+                isActive ? 'text-white font-semibold' : 'text-zinc-500'
               }`}
             >
               {s.label}
             </span>
             {i < STEPS.length - 1 && (
               <div
-                className={`flex-1 h-0.5 rounded transition-colors ${
-                  isDone ? 'bg-primary' : 'bg-border/60'
+                className={`flex-1 h-[1px] rounded-none transition-colors ${
+                  isDone ? 'bg-zinc-300' : 'bg-zinc-800'
                 }`}
               />
             )}

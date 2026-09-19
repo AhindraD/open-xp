@@ -7,35 +7,35 @@ interface StatusBadgeProps {
 export function StatusBadge({ isLive }: StatusBadgeProps) {
   if (isLive) {
     return (
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary border border-primary/20">
-        <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-        LIVE • KMS UNLOCKED
+      <span className="inline-flex items-center gap-1.5 rounded-none bg-zinc-900/90 px-2.5 py-0.5 text-[11px] font-mono font-medium text-emerald-400 border border-emerald-500/30">
+        <span className="h-1.5 w-1.5 bg-emerald-400 animate-pulse" />
+        LIVE // KMS UNLOCKED
       </span>
     )
   }
 
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-chart-4/10 px-3 py-1 text-xs font-semibold text-chart-4 border border-chart-4/20">
+    <span className="inline-flex items-center gap-1.5 rounded-none bg-zinc-900/90 px-2.5 py-0.5 text-[11px] font-mono font-medium text-amber-400 border border-amber-500/30">
       <Lock className="h-3 w-3" />
-      LOCKED • PENDING QUORUM
+      LOCKED // PENDING QUORUM
     </span>
   )
 }
 
 export function LivePill() {
   return (
-    <div className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary border border-primary/20">
-      <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-      ACTIVE • SOLANA ANCHORED
+    <div className="inline-flex items-center gap-1.5 rounded-none bg-zinc-900/90 px-2.5 py-1 text-[11px] font-mono font-medium text-zinc-200 border border-zinc-700">
+      <span className="h-1.5 w-1.5 bg-emerald-400 animate-pulse" />
+      ACTIVE // SOLANA ANCHORED
     </div>
   )
 }
 
 export function AdminPill() {
   return (
-    <div className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary border border-primary/20">
-      <Sparkles className="h-3.5 w-3.5" />
-      ADMINISTRATION • PHASE A
+    <div className="inline-flex items-center gap-1.5 rounded-none bg-zinc-900/90 px-2.5 py-1 text-[11px] font-mono font-medium text-zinc-200 border border-zinc-700">
+      <Sparkles className="h-3 w-3 text-zinc-400" />
+      ADMINISTRATION // PHASE A
     </div>
   )
 }

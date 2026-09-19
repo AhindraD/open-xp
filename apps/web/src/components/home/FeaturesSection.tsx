@@ -23,19 +23,34 @@ const FEATURES = [
 
 export function FeaturesSection() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-20">
-      <div className="grid gap-8 md:grid-cols-3">
+    <section className="mx-auto max-w-7xl px-6 py-16">
+      <div className="grid gap-6 md:grid-cols-3">
         {FEATURES.map((feature, index) => (
           <div
             key={feature.title}
-            className="group glass relative rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/20 border border-border/60"
-            style={{ animationDelay: `${index * 0.15}s` }}
+            className="group relative rounded-none p-8 border border-zinc-800 bg-[#0c0d10]/90 transition-all duration-300 hover:-translate-y-1 hover:border-zinc-600 hover:shadow-xl hover:shadow-white/[0.02]"
+            style={{ animationDelay: `${index * 0.1}s` }}
           >
-            <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 transition-colors group-hover:bg-primary/20">
-              <feature.icon className="h-7 w-7 text-primary" />
+            {/* Top-right mechanical corner cross */}
+            <div className="absolute top-3 right-3 font-mono text-[10px] text-zinc-600 group-hover:text-zinc-400 transition-colors">
+              +
             </div>
-            <h3 className="mb-3 text-xl font-bold tracking-tight">{feature.title}</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+
+            {/* Icon Box */}
+            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-none bg-zinc-900 border border-zinc-700 text-zinc-200 group-hover:border-zinc-400 group-hover:text-white transition-colors">
+              <feature.icon className="h-6 w-6 text-zinc-300" />
+            </div>
+
+            {/* Card Index */}
+            <div className="mb-2 font-mono text-[10px] text-zinc-400 uppercase tracking-widest">
+              SYSTEM MODULE 0{index + 1}
+            </div>
+
+            {/* Title */}
+            <h3 className="mb-3 text-lg font-bold tracking-tight text-white">{feature.title}</h3>
+
+            {/* Description */}
+            <p className="text-xs text-zinc-400 leading-relaxed font-sans">
               {feature.description}
             </p>
           </div>

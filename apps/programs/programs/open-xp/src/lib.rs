@@ -8,7 +8,7 @@ pub mod state;
 
 use instructions::*;
 
-declare_id!("7KjAvFx41EYsThCnMGkk5UFbze2aHjwXWxMHqm56bz8y");
+declare_id!("2Pk3R8Gfe6FEaWTbxFtiw1vDULctsqprhsuHa59jQBfV");
 
 #[program]
 pub mod open_xp {

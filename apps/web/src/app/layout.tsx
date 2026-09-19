@@ -1,13 +1,18 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { SolanaProvider } from '@/providers/solana-provider'
 import { AuthProvider } from '@/providers/auth-provider'
 import { Toaster } from 'sonner'
 
-const inter = Inter({
+const geistSans = Geist({
   subsets: ['latin'],
   variable: '--font-geist-sans',
+})
+
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-geist-mono',
 })
 
 export const metadata: Metadata = {
@@ -32,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <AuthProvider>
           <SolanaProvider>
             {children}
@@ -40,9 +45,11 @@ export default function RootLayout({
               position="bottom-right"
               toastOptions={{
                 style: {
-                  background: 'oklch(0.16 0.025 270)',
-                  border: '1px solid oklch(0.25 0.03 270)',
-                  color: 'oklch(0.95 0.01 270)',
+                  background: '#0c0d10',
+                  border: '1px solid #23262e',
+                  borderRadius: '0px',
+                  color: '#f4f4f6',
+                  fontFamily: 'var(--font-geist-sans), sans-serif',
                 },
               }}
             />

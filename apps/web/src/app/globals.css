@@ -37,45 +37,45 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.13 0.02 270);
-  --foreground: oklch(0.95 0.01 270);
-  --card: oklch(0.16 0.025 270);
-  --card-foreground: oklch(0.95 0.01 270);
-  --popover: oklch(0.16 0.025 270);
-  --popover-foreground: oklch(0.95 0.01 270);
-  --primary: oklch(0.72 0.19 160);
-  --primary-foreground: oklch(0.13 0.02 270);
-  --secondary: oklch(0.22 0.03 270);
-  --secondary-foreground: oklch(0.9 0.01 270);
-  --muted: oklch(0.2 0.025 270);
-  --muted-foreground: oklch(0.6 0.02 270);
-  --accent: oklch(0.25 0.04 270);
-  --accent-foreground: oklch(0.95 0.01 270);
-  --destructive: oklch(0.6 0.22 25);
-  --border: oklch(0.25 0.03 270);
-  --input: oklch(0.25 0.03 270);
-  --ring: oklch(0.72 0.19 160);
-  --chart-1: oklch(0.72 0.19 160);
-  --chart-2: oklch(0.65 0.18 200);
-  --chart-3: oklch(0.7 0.15 280);
-  --chart-4: oklch(0.75 0.12 60);
-  --chart-5: oklch(0.6 0.22 25);
-  --sidebar: oklch(0.11 0.015 270);
-  --sidebar-foreground: oklch(0.95 0.01 270);
-  --sidebar-primary: oklch(0.72 0.19 160);
-  --sidebar-primary-foreground: oklch(0.13 0.02 270);
-  --sidebar-accent: oklch(0.2 0.03 270);
-  --sidebar-accent-foreground: oklch(0.95 0.01 270);
-  --sidebar-border: oklch(0.22 0.025 270);
-  --sidebar-ring: oklch(0.72 0.19 160);
+  --radius: 0px;
+  --background: #050507;
+  --foreground: #f4f4f6;
+  --card: #0c0d10;
+  --card-foreground: #f4f4f6;
+  --popover: #0c0d10;
+  --popover-foreground: #f4f4f6;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: #17191e;
+  --secondary-foreground: #d4d4d8;
+  --muted: #131418;
+  --muted-foreground: #8a8f9c;
+  --accent: #1e2027;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --border: #23262e;
+  --input: #15171c;
+  --ring: #71717a;
+  --chart-1: #e2e8f0;
+  --chart-2: #94a3b8;
+  --chart-3: #64748b;
+  --chart-4: #475569;
+  --chart-5: #334155;
+  --sidebar: #090a0d;
+  --sidebar-foreground: #f4f4f6;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #17191e;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #23262e;
+  --sidebar-ring: #71717a;
 }
 
 @layer base {
@@ -87,6 +87,37 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  /* Force non-rounded corner buttons across all native and custom buttons */
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    border-radius: 0px !important;
+  }
+}
+
+/* ─── Mechanical Square Grid Utilities ───────────────────────── */
+.mech-grid-bg {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+.mech-grid-bg-dense {
+  background-size: 16px 16px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+}
+
+.steel-glow {
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.08);
+}
+
+.steel-glow-sm {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
 }
 
 /* ─── Custom Animations ──────────────────────────────────────── */
@@ -97,42 +128,61 @@
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-6px); }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px oklch(0.72 0.19 160 / 0.3); }
-  50% { box-shadow: 0 0 40px oklch(0.72 0.19 160 / 0.6); }
+  0%, 100% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); }
+  50% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.25); }
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-gradient { animation: gradient-shift 6s ease infinite; background-size: 200% 200%; }
-.animate-float { animation: float 3s ease-in-out infinite; }
-.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
-.animate-slide-up { animation: slide-up 0.6s ease-out forwards; }
+.animate-float { animation: float 4s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+.animate-slide-up { animation: slide-up 0.5s ease-out forwards; }
 
-/* ─── Glassmorphism Utility ──────────────────────────────────── */
+/* ─── Glassmorphism Utility (Steel Dark) ──────────────────────── */
 .glass {
-  background: oklch(0.16 0.025 270 / 0.6);
+  background: rgba(12, 13, 16, 0.78);
   backdrop-filter: blur(16px);
-  border: 1px solid oklch(0.3 0.03 270 / 0.3);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
 }
 
-/* ─── Solana Wallet Adapter Overrides ────────────────────────── */
+/* ─── Solana Wallet Adapter Overrides (Vercel Steel) ──────────── */
 .wallet-adapter-button {
-  background: oklch(0.72 0.19 160) !important;
-  color: oklch(0.13 0.02 270) !important;
-  border-radius: var(--radius) !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-radius: 0px !important;
   font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  height: 2.625rem !important;
+  line-height: 1 !important;
+  border: 1px solid #ffffff !important;
   transition: all 0.2s ease !important;
 }
 
 .wallet-adapter-button:hover {
-  background: oklch(0.78 0.19 160) !important;
+  background: #e4e4e7 !important;
+  color: #000000 !important;
+  border-color: #e4e4e7 !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px oklch(0.72 0.19 160 / 0.4);
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15) !important;
+}
+
+.wallet-adapter-modal-wrapper {
+  background: #0c0d10 !important;
+  border: 1px solid #23262e !important;
+  border-radius: 0px !important;
+  color: #f4f4f6 !important;
+}
+
+.wallet-adapter-modal-button-close {
+  background: #17191e !important;
+  border-radius: 0px !important;
 }

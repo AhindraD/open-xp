@@ -72,9 +72,9 @@ export default function ExamPage() {
                 <div className="flex justify-center pt-4 pb-8">
                   <Link
                     href="/dashboard"
-                    className="inline-flex items-center gap-2 rounded-xl bg-secondary px-6 py-3 text-sm font-semibold text-secondary-foreground hover:bg-secondary/80 transition-all"
+                    className="inline-flex items-center gap-2 rounded-none border border-zinc-700 bg-zinc-900 px-6 py-3 text-xs font-mono font-medium text-zinc-200 hover:bg-zinc-800 hover:border-zinc-500 hover:text-white transition-all shadow-sm active:scale-[0.99]"
                   >
-                    Return to Dashboard
+                    ← RETURN TO DASHBOARD
                   </Link>
                 </div>
               </div>

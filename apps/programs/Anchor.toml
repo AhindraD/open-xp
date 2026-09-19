@@ -4,18 +4,17 @@
 resolution = true
 skip-lint = false
 
+[programs.devnet]
+open_xp = "2Pk3R8Gfe6FEaWTbxFtiw1vDULctsqprhsuHa59jQBfV"
+
 [programs.localnet]
 open_xp = "7KjAvFx41EYsThCnMGkk5UFbze2aHjwXWxMHqm56bz8y"
 
-[programs.devnet]
-open_xp = "7KjAvFx41EYsThCnMGkk5UFbze2aHjwXWxMHqm56bz8y"
-
-[registry]
-url = "https://api.apr.dev"
-
 [provider]
 cluster = "devnet"
-wallet = "~/.config/solana/id.json"
+wallet = "~/ralli1.json"
 
 [scripts]
 test = "npx ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+
+[hooks]

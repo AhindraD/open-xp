@@ -42,21 +42,21 @@ export default function CreateExamPage() {
 
       <div className="mx-auto max-w-4xl px-6 py-10 w-full flex-1">
         {/* Header */}
-        <div className="glass rounded-2xl p-8 mb-8 border border-border/60">
-          <div className="flex items-start justify-between">
+        <div className="rounded-none p-6 sm:p-8 mb-8 border border-zinc-800 bg-[#0c0d10]/95 relative">
+          <div className="flex items-start justify-between gap-4">
             <div>
               <div className="mb-3">
                 <AdminPill />
               </div>
-              <h1 className="text-3xl font-bold tracking-tight">Create Trustless Exam</h1>
-              <p className="mt-2 text-sm text-muted-foreground max-w-2xl leading-relaxed">
-                Upload and encrypt exam question papers using <strong>AWS KMS (AES-256-GCM)</strong>,
-                store the ciphertext in <strong>Amazon S3</strong>, and anchor the multisig verification
-                quorum on <strong>Solana Devnet</strong>.
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Create Trustless Exam</h1>
+              <p className="mt-2 text-xs text-zinc-400 max-w-2xl leading-relaxed">
+                Upload and encrypt exam question papers using <strong className="text-zinc-200">AWS KMS (AES-256-GCM)</strong>,
+                store the ciphertext in <strong className="text-zinc-200">Amazon S3</strong>, and anchor the multisig verification
+                quorum on <strong className="text-zinc-200">Solana Devnet</strong>.
               </p>
             </div>
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 border border-primary/20">
-              <Lock className="h-7 w-7 text-primary" />
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none bg-zinc-900 border border-zinc-700 text-zinc-200">
+              <Lock className="h-6 w-6 text-zinc-300" />
             </div>
           </div>
         </div>
