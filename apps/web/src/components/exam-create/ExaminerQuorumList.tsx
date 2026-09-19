@@ -24,7 +24,9 @@ export function ExaminerQuorumList({
       <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3">
         <div className="flex items-center gap-2">
           <Users className="h-4 w-4 text-zinc-300" />
-          <h2 className="text-sm font-bold uppercase tracking-wider text-white">02 // Examiner Multisig Quorum</h2>
+          <h2 className="text-sm font-bold uppercase tracking-wider text-white">
+            02 // Examiner Multisig Quorum
+          </h2>
         </div>
         <div className="flex items-center gap-2 font-mono text-xs text-zinc-400">
           <span>Threshold:</span>
@@ -48,9 +50,7 @@ export function ExaminerQuorumList({
 
         {examiners.map((examiner, index) => (
           <div key={index} className="flex items-center gap-2">
-            <span className="text-xs font-mono text-zinc-500 w-6 text-center">
-              #{index + 1}
-            </span>
+            <span className="text-xs font-mono text-zinc-500 w-6 text-center">#{index + 1}</span>
             <input
               type="text"
               value={examiner}

@@ -48,11 +48,15 @@ export default function CreateExamPage() {
               <div className="mb-3">
                 <AdminPill />
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Create Trustless Exam</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                Create Trustless Exam
+              </h1>
               <p className="mt-2 text-xs text-zinc-400 max-w-2xl leading-relaxed">
-                Upload and encrypt exam question papers using <strong className="text-zinc-200">AWS KMS (AES-256-GCM)</strong>,
-                store the ciphertext in <strong className="text-zinc-200">Amazon S3</strong>, and anchor the multisig verification
-                quorum on <strong className="text-zinc-200">Solana Devnet</strong>.
+                Upload and encrypt exam question papers using{' '}
+                <strong className="text-zinc-200">AWS KMS (AES-256-GCM)</strong>, store the
+                ciphertext in <strong className="text-zinc-200">Amazon S3</strong>, and anchor the
+                multisig verification quorum on{' '}
+                <strong className="text-zinc-200">Solana Devnet</strong>.
               </p>
             </div>
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none bg-zinc-900 border border-zinc-700 text-zinc-200">

@@ -26,7 +26,7 @@ export function useExaminerApproval(initialExams: ExamItem[]) {
       const programId = new PublicKey(PROGRAM_ID)
       const [examStatePDA] = PublicKey.findProgramAddressSync(
         [Buffer.from(SEEDS.EXAM_STATE), Buffer.from(examId)],
-        programId
+        programId,
       )
 
       try {
@@ -38,7 +38,7 @@ export function useExaminerApproval(initialExams: ExamItem[]) {
               { pubkey: examStatePDA, isSigner: false, isWritable: true },
             ],
             data: Buffer.from([]), // approve_exam discriminator
-          })
+          }),
         )
         const { blockhash } = await connection.getLatestBlockhash()
         tx.recentBlockhash = blockhash
@@ -61,14 +61,14 @@ export function useExaminerApproval(initialExams: ExamItem[]) {
             }
           }
           return e
-        })
+        }),
       )
 
       const target = exams.find((e) => e.id === examId)
       const isLive = target && target.approvals + 1 >= target.threshold
 
       toast.success(
-        `Approval logged on Solana! ${isLive ? 'Exam is now LIVE!' : 'Waiting for remaining approvals.'}`
+        `Approval logged on Solana! ${isLive ? 'Exam is now LIVE!' : 'Waiting for remaining approvals.'}`,
       )
     } catch (err) {
       console.error('Approval failed:', err)

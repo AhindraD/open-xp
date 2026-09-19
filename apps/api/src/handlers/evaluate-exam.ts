@@ -56,12 +56,12 @@ export const handler = async (event: EvaluateExamEvent) => {
           exam_id: examId,
           student_wallet: studentWallet,
         },
-      })
+      }),
     );
 
     if (!getResult.Item) {
       throw new Error(
-        `No answers found for exam ${examId}, student ${studentWallet}`
+        `No answers found for exam ${examId}, student ${studentWallet}`,
       );
     }
 
@@ -79,7 +79,10 @@ export const handler = async (event: EvaluateExamEvent) => {
 
     // 2. Format answers for grading prompt
     const formattedAnswers = Object.entries(answers)
-      .map(([question, answer]) => `Question ID: ${question}\nStudent Answer: ${answer}`)
+      .map(
+        ([question, answer]) =>
+          `Question ID: ${question}\nStudent Answer: ${answer}`,
+      )
       .join("\n\n---\n\n");
 
     const promptText = `You are an expert university examiner grading a subjective examination.
@@ -167,7 +170,8 @@ Use the submit_evaluation tool to record the final score (0-100), rubric matches
 
     const score = Math.min(100, Math.max(0, Math.round(evaluation.score)));
     const rubricMatch = evaluation.rubric_match ?? {};
-    const justification = evaluation.justification ?? "Graded by Amazon Bedrock Claude 3.5 Sonnet";
+    const justification =
+      evaluation.justification ?? "Graded by Amazon Bedrock Claude 3.5 Sonnet";
 
     // 4. Compute deterministic SHA-256 EvaluationHash
     const deterministicEvaluation = {
@@ -179,9 +183,11 @@ Use the submit_evaluation tool to record the final score (0-100), rubric matches
     };
     const serialized = JSON.stringify(
       deterministicEvaluation,
-      Object.keys(deterministicEvaluation).sort()
+      Object.keys(deterministicEvaluation).sort(),
     );
-    const evaluationHash = createHash("sha256").update(serialized).digest("hex");
+    const evaluationHash = createHash("sha256")
+      .update(serialized)
+      .digest("hex");
     const now = Math.floor(Date.now() / 1000);
 
     // 5. Update DynamoDB with evaluation results
@@ -212,7 +218,7 @@ Use the submit_evaluation tool to record the final score (0-100), rubric matches
           ":gradedAt": now,
           ":gradedBy": BEDROCK_MODEL_ID,
         },
-      })
+      }),
     );
 
     // 6. Anchor EvaluationHash to Solana if backend evaluator keypair is configured
@@ -233,7 +239,7 @@ Use the submit_evaluation tool to record the final score (0-100), rubric matches
         const programId = new PublicKey(PROGRAM_ID);
         const [examStatePDA] = PublicKey.findProgramAddressSync(
           [Buffer.from(SEEDS.EXAM_STATE), Buffer.from(examId)],
-          programId
+          programId,
         );
         const studentPubkey = new PublicKey(studentWallet);
         const [answerRecordPDA] = PublicKey.findProgramAddressSync(
@@ -242,7 +248,7 @@ Use the submit_evaluation tool to record the final score (0-100), rubric matches
             examStatePDA.toBuffer(),
             studentPubkey.toBuffer(),
           ],
-          programId
+          programId,
         );
 
         txSignature = await (program.methods as any)
@@ -257,7 +263,10 @@ Use the submit_evaluation tool to record the final score (0-100), rubric matches
 
         onChainAnchored = true;
       } catch (solanaErr) {
-        console.warn("Could not anchor evaluation on Solana directly:", solanaErr);
+        console.warn(
+          "Could not anchor evaluation on Solana directly:",
+          solanaErr,
+        );
       }
     }
 

@@ -26,6 +26,6 @@ export const MOCK_NEW_EXAM_PREFILL = {
       },
     ],
     null,
-    2
+    2,
   ),
 }

@@ -15,7 +15,8 @@ export const MOCK_EXAMS: ExamItem[] = [
   {
     id: 'CS101-FINAL-2026',
     title: 'Computer Science 101 — Final Exam',
-    description: 'Comprehensive exam covering data structures, algorithms, and complexity analysis.',
+    description:
+      'Comprehensive exam covering data structures, algorithms, and complexity analysis.',
     isLive: true,
     examiners: 3,
     approvals: 3,

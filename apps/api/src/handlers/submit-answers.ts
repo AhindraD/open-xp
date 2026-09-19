@@ -18,7 +18,7 @@ const TABLE_NAME = process.env["EXAM_TABLE_NAME"] ?? "OpenXpExamTable";
  * 4. Returns the hash for the client to submit on-chain
  */
 export const handler = async (
-  event: APIGatewayProxyEventV2
+  event: APIGatewayProxyEventV2,
 ): Promise<APIGatewayProxyResultV2> => {
   try {
     const body = JSON.parse(event.body ?? "{}");
@@ -40,9 +40,7 @@ export const handler = async (
     // Compute SHA-256 hash of the answers JSON
     // The hash is deterministic: sorted keys ensure consistency
     const sortedAnswers = JSON.stringify(answers, Object.keys(answers).sort());
-    const answerHash = createHash("sha256")
-      .update(sortedAnswers)
-      .digest("hex");
+    const answerHash = createHash("sha256").update(sortedAnswers).digest("hex");
 
     // Save to DynamoDB
     await docClient.send(
@@ -60,7 +58,7 @@ export const handler = async (
         // Prevent duplicate submissions
         ConditionExpression:
           "attribute_not_exists(exam_id) AND attribute_not_exists(student_wallet)",
-      })
+      }),
     );
 
     return {

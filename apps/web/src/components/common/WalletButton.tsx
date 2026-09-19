@@ -28,14 +28,7 @@ export function WalletButton({ className = '', size = 'md' }: WalletButtonProps)
   const [balance, setBalance] = useState<number | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  const {
-    publicKey,
-    connected,
-    connecting,
-    disconnect,
-    wallet,
-    connect,
-  } = useWallet()
+  const { publicKey, connected, connecting, disconnect, wallet, connect } = useWallet()
 
   const { setVisible } = useWalletModal()
   const { connection } = useConnection()
@@ -172,9 +165,7 @@ export function WalletButton({ className = '', size = 'md' }: WalletButtonProps)
           </span>
 
           {/* User Public Key */}
-          <span className="font-mono text-xs font-medium text-zinc-200">
-            {truncatedAddress}
-          </span>
+          <span className="font-mono text-xs font-medium text-zinc-200">{truncatedAddress}</span>
 
           {balance !== null && (
             <span className="hidden sm:inline-block rounded-none bg-zinc-800/80 px-1.5 py-0.5 text-[10px] font-mono text-zinc-300 border border-zinc-700/60">
@@ -206,9 +197,7 @@ export function WalletButton({ className = '', size = 'md' }: WalletButtonProps)
                     DEVNET
                   </span>
                 </div>
-                <p className="font-mono text-[11px] text-zinc-400 truncate">
-                  {pubkeyString}
-                </p>
+                <p className="font-mono text-[11px] text-zinc-400 truncate">{pubkeyString}</p>
               </div>
             </div>
 
@@ -228,9 +217,7 @@ export function WalletButton({ className = '', size = 'md' }: WalletButtonProps)
                   )}
                   <span>{copied ? 'Copied to Clipboard' : 'Copy Public Key'}</span>
                 </div>
-                <span className="font-mono text-[10px] text-zinc-500">
-                  {truncatedAddress}
-                </span>
+                <span className="font-mono text-[10px] text-zinc-500">{truncatedAddress}</span>
               </button>
 
               {/* View on Solana Explorer */}

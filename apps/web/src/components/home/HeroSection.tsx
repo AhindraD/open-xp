@@ -27,9 +27,9 @@ export function HeroSection() {
           className="animate-slide-up mt-6 max-w-2xl text-base text-zinc-400 leading-relaxed sm:text-lg"
           style={{ animationDelay: '0.2s' }}
         >
-          A decentralized examination platform where every paper is KMS envelope-encrypted,
-          every answer hash is committed on-chain, and every grade is verified by Bedrock AI.
-          Zero tampering. Zero blind trust.
+          A decentralized examination platform where every paper is KMS envelope-encrypted, every
+          answer hash is committed on-chain, and every grade is verified by Bedrock AI. Zero
+          tampering. Zero blind trust.
         </p>
 
         {/* Non-Rounded CTA Buttons */}

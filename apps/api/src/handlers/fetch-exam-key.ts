@@ -32,7 +32,7 @@ const coder = new BorshAccountsCoder(OPEN_XP_IDL as any);
  * 6. Returns plaintext AES key and encrypted paper for in-memory client decryption
  */
 export const handler = async (
-  event: APIGatewayProxyEventV2
+  event: APIGatewayProxyEventV2,
 ): Promise<APIGatewayProxyResultV2> => {
   try {
     const body = JSON.parse(event.body ?? "{}");
@@ -55,7 +55,7 @@ export const handler = async (
     const programId = new PublicKey(PROGRAM_ID);
     const [examStatePDA] = PublicKey.findProgramAddressSync(
       [Buffer.from(SEEDS.EXAM_STATE), Buffer.from(examId)],
-      programId
+      programId,
     );
 
     // 2. Read account from Solana Devnet
@@ -103,7 +103,7 @@ export const handler = async (
           exam_id: examId,
           student_wallet: "METADATA#EXAM",
         },
-      })
+      }),
     );
 
     if (!examRecord.Item || !examRecord.Item["ciphertext_blob"]) {
@@ -116,7 +116,7 @@ export const handler = async (
 
     const ciphertextBlob = Buffer.from(
       examRecord.Item["ciphertext_blob"] as string,
-      "base64"
+      "base64",
     );
 
     // 5. Authorize AWS KMS to decrypt the Data Key
@@ -134,7 +134,7 @@ export const handler = async (
     }
 
     const plaintextKey = Buffer.from(decryptResponse.Plaintext).toString(
-      "base64"
+      "base64",
     );
 
     // 6. Fetch encrypted paper from Amazon S3
@@ -146,14 +146,17 @@ export const handler = async (
         new GetObjectCommand({
           Bucket: BUCKET_NAME,
           Key: s3Key,
-        })
+        }),
       );
       const s3BodyString = await s3Response.Body?.transformToString();
       if (s3BodyString) {
         encryptedPaper = JSON.parse(s3BodyString);
       }
     } catch (s3Err) {
-      console.warn("Could not fetch S3 paper directly, falling back to DDB metadata:", s3Err);
+      console.warn(
+        "Could not fetch S3 paper directly, falling back to DDB metadata:",
+        s3Err,
+      );
       encryptedPaper = {
         examId,
         iv: examRecord.Item["iv"],

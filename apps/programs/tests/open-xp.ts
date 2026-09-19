@@ -25,17 +25,17 @@ describe("open-xp", () => {
   const getExamStatePDA = (examId: string): [PublicKey, number] => {
     return PublicKey.findProgramAddressSync(
       [Buffer.from("exam"), Buffer.from(examId)],
-      program.programId
+      program.programId,
     );
   };
 
   const getAnswerRecordPDA = (
     examState: PublicKey,
-    studentKey: PublicKey
+    studentKey: PublicKey,
   ): [PublicKey, number] => {
     return PublicKey.findProgramAddressSync(
       [Buffer.from("answer"), examState.toBuffer(), studentKey.toBuffer()],
-      program.programId
+      program.programId,
     );
   };
 
@@ -46,7 +46,7 @@ describe("open-xp", () => {
     for (const kp of [examiner1, examiner2, examiner3, student]) {
       const sig = await provider.connection.requestAirdrop(
         kp.publicKey,
-        airdropAmount
+        airdropAmount,
       );
       await provider.connection.confirmTransaction(sig);
     }
@@ -73,11 +73,13 @@ describe("open-xp", () => {
         })
         .rpc();
 
-      const examState = await (program.account as any).examState.fetch(examStatePDA);
+      const examState = await (program.account as any).examState.fetch(
+        examStatePDA,
+      );
 
       expect(examState.examId).to.equal(examId);
       expect(examState.authority.toBase58()).to.equal(
-        authority.publicKey.toBase58()
+        authority.publicKey.toBase58(),
       );
       expect(examState.examiners).to.have.length(3);
       expect(examState.multisigThreshold).to.equal(threshold);
@@ -111,7 +113,12 @@ describe("open-xp", () => {
 
       try {
         await program.methods
-          .initializeExam(badExamId, 5, [examiner1.publicKey], "s3://bucket/bad")
+          .initializeExam(
+            badExamId,
+            5,
+            [examiner1.publicKey],
+            "s3://bucket/bad",
+          )
           .accounts({
             authority: authority.publicKey,
             examState: badPDA,
@@ -138,7 +145,9 @@ describe("open-xp", () => {
         .signers([examiner1])
         .rpc();
 
-      const examState = await (program.account as any).examState.fetch(examStatePDA);
+      const examState = await (program.account as any).examState.fetch(
+        examStatePDA,
+      );
       expect(examState.currentApprovals).to.have.length(1);
       expect(examState.isLive).to.be.false; // threshold is 2, only 1 approval
     });
@@ -155,7 +164,9 @@ describe("open-xp", () => {
         .signers([examiner2])
         .rpc();
 
-      const examState = await (program.account as any).examState.fetch(examStatePDA);
+      const examState = await (program.account as any).examState.fetch(
+        examStatePDA,
+      );
       expect(examState.currentApprovals).to.have.length(2);
       expect(examState.isLive).to.be.true; // threshold met!
     });
@@ -209,14 +220,13 @@ describe("open-xp", () => {
   });
 
   describe("submit_answer_hash", () => {
-    const validHash =
-      "a".repeat(64); // 64 hex chars = valid SHA-256
+    const validHash = "a".repeat(64); // 64 hex chars = valid SHA-256
 
     it("should submit an answer hash for a live exam", async () => {
       const [examStatePDA] = getExamStatePDA(examId);
       const [answerRecordPDA] = getAnswerRecordPDA(
         examStatePDA,
-        student.publicKey
+        student.publicKey,
       );
 
       await program.methods
@@ -230,14 +240,15 @@ describe("open-xp", () => {
         .signers([student])
         .rpc();
 
-      const answerRecord =
-        await (program.account as any).answerRecord.fetch(answerRecordPDA);
+      const answerRecord = await (program.account as any).answerRecord.fetch(
+        answerRecordPDA,
+      );
       expect(answerRecord.answerHash).to.equal(validHash);
       expect(answerRecord.student.toBase58()).to.equal(
-        student.publicKey.toBase58()
+        student.publicKey.toBase58(),
       );
       expect(answerRecord.examState.toBase58()).to.equal(
-        examStatePDA.toBase58()
+        examStatePDA.toBase58(),
       );
       expect(answerRecord.isEvaluated).to.be.false;
     });
@@ -247,10 +258,12 @@ describe("open-xp", () => {
       const [notLivePDA] = getExamStatePDA(notLiveExamId);
 
       await program.methods
-        .initializeExam(notLiveExamId, 2, [
-          examiner1.publicKey,
-          examiner2.publicKey,
-        ], "s3://bucket/notlive")
+        .initializeExam(
+          notLiveExamId,
+          2,
+          [examiner1.publicKey, examiner2.publicKey],
+          "s3://bucket/notlive",
+        )
         .accounts({
           authority: authority.publicKey,
           examState: notLivePDA,
@@ -284,13 +297,13 @@ describe("open-xp", () => {
       // Airdrop to new student
       const sig = await provider.connection.requestAirdrop(
         newStudent.publicKey,
-        5 * anchor.web3.LAMPORTS_PER_SOL
+        5 * anchor.web3.LAMPORTS_PER_SOL,
       );
       await provider.connection.confirmTransaction(sig);
 
       const [answerPDA] = getAnswerRecordPDA(
         examStatePDA,
-        newStudent.publicKey
+        newStudent.publicKey,
       );
 
       try {
@@ -314,7 +327,7 @@ describe("open-xp", () => {
       const [examStatePDA] = getExamStatePDA(examId);
       const [answerRecordPDA] = getAnswerRecordPDA(
         examStatePDA,
-        student.publicKey
+        student.publicKey,
       );
 
       try {
@@ -344,7 +357,7 @@ describe("open-xp", () => {
       const [examStatePDA] = getExamStatePDA(examId);
       const [answerRecordPDA] = getAnswerRecordPDA(
         examStatePDA,
-        student.publicKey
+        student.publicKey,
       );
 
       await program.methods
@@ -356,8 +369,9 @@ describe("open-xp", () => {
         })
         .rpc();
 
-      const answerRecord =
-        await (program.account as any).answerRecord.fetch(answerRecordPDA);
+      const answerRecord = await (program.account as any).answerRecord.fetch(
+        answerRecordPDA,
+      );
       expect(answerRecord.isEvaluated).to.be.true;
       expect(answerRecord.evaluationHash).to.equal(validEvaluationHash);
       expect(answerRecord.score).to.equal(score);
@@ -367,7 +381,7 @@ describe("open-xp", () => {
       const [examStatePDA] = getExamStatePDA(examId);
       const [answerRecordPDA] = getAnswerRecordPDA(
         examStatePDA,
-        student.publicKey
+        student.publicKey,
       );
 
       try {
@@ -389,7 +403,7 @@ describe("open-xp", () => {
       const [examStatePDA] = getExamStatePDA(examId);
       const [answerRecordPDA] = getAnswerRecordPDA(
         examStatePDA,
-        student.publicKey
+        student.publicKey,
       );
 
       try {

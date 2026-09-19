@@ -76,7 +76,9 @@ export function ExamAIEvaluation({
             <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">
               Academic Justification
             </p>
-            <p className="text-xs leading-relaxed text-zinc-300 font-sans">{evaluation.justification}</p>
+            <p className="text-xs leading-relaxed text-zinc-300 font-sans">
+              {evaluation.justification}
+            </p>
           </div>
 
           {/* Rubric Breakdown */}

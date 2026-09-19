@@ -5,10 +5,7 @@ interface ExamSubmissionReceiptProps {
   txSignature: string
 }
 
-export function ExamSubmissionReceipt({
-  answerHash,
-  txSignature,
-}: ExamSubmissionReceiptProps) {
+export function ExamSubmissionReceipt({ answerHash, txSignature }: ExamSubmissionReceiptProps) {
   return (
     <div className="rounded-none p-6 sm:p-8 border border-zinc-800 bg-[#0c0d10]/95">
       <div className="flex items-center gap-4 mb-6">

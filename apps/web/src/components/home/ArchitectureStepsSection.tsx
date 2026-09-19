@@ -29,8 +29,12 @@ export function ArchitectureStepsSection() {
     <section className="mx-auto max-w-7xl px-6 py-16">
       <div className="rounded-none p-8 sm:p-12 border border-zinc-800 bg-[#0c0d10]/90 relative">
         {/* Subtle mechanical corner indicators */}
-        <div className="absolute top-2 left-2 font-mono text-[10px] text-zinc-600">[SYS_PIPELINE]</div>
-        <div className="absolute top-2 right-2 font-mono text-[10px] text-zinc-600">[FLOW_VERIFIED]</div>
+        <div className="absolute top-2 left-2 font-mono text-[10px] text-zinc-600">
+          [SYS_PIPELINE]
+        </div>
+        <div className="absolute top-2 right-2 font-mono text-[10px] text-zinc-600">
+          [FLOW_VERIFIED]
+        </div>
 
         <div className="mx-auto max-w-2xl text-center pt-2">
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl text-white">

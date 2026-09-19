@@ -32,11 +32,7 @@ export default function DashboardPage() {
         ) : (
           <>
             <DashboardStatsBar exams={exams} />
-            <ExamGrid
-              exams={exams}
-              approvingId={approvingId}
-              onApprove={handleExaminerApproval}
-            />
+            <ExamGrid exams={exams} approvingId={approvingId} onApprove={handleExaminerApproval} />
           </>
         )}
       </div>

@@ -13,7 +13,9 @@ export function ExamLockedState({ isDecrypting, onDecrypt }: ExamLockedStateProp
       <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-none bg-zinc-900 border border-zinc-700 text-zinc-200">
         <KeyRound className="h-8 w-8 text-zinc-300" />
       </div>
-      <h2 className="text-xl sm:text-2xl font-bold mb-2 text-white">Paper Locked &amp; Encrypted</h2>
+      <h2 className="text-xl sm:text-2xl font-bold mb-2 text-white">
+        Paper Locked &amp; Encrypted
+      </h2>
       <p className="text-xs text-zinc-400 max-w-lg mb-8 leading-relaxed font-mono">
         The question paper is stored in Amazon S3 encrypted with an AWS KMS Data Key. Verification
         requires on-chain Solana multisig approval before the decryption key is released in-memory.

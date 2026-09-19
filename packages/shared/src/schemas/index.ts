@@ -120,7 +120,9 @@ export const EvaluationResultSchema = z.object({
 export const RecordEvaluationSchema = z.object({
   examId: z.string().min(1, "Exam ID is required"),
   studentWallet: z.string().min(32, "Invalid wallet address"),
-  evaluationHash: z.string().length(64, "SHA-256 hash must be 64 hex characters"),
+  evaluationHash: z
+    .string()
+    .length(64, "SHA-256 hash must be 64 hex characters"),
   score: z.number().int().min(0).max(100),
 });
 

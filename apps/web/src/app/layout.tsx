@@ -19,15 +19,7 @@ export const metadata: Metadata = {
   title: 'Open-XP | Trustless Exam System',
   description:
     'A decentralized, trustless examination platform powered by Solana blockchain and AWS. Tamper-proof answer submissions, multi-sig exam approval, and AI-powered grading.',
-  keywords: [
-    'blockchain',
-    'solana',
-    'exam',
-    'trustless',
-    'web3',
-    'education',
-    'decentralized',
-  ],
+  keywords: ['blockchain', 'solana', 'exam', 'trustless', 'web3', 'education', 'decentralized'],
 }
 
 export default function RootLayout({

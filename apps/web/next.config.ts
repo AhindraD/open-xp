@@ -1,11 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  output: "standalone",
+  output: 'standalone',
+  turbopack: {},
   webpack: (config) => {
     // Required for @solana/web3.js
     config.resolve.fallback = {
@@ -14,9 +12,9 @@ const nextConfig: NextConfig = {
       os: false,
       path: false,
       crypto: false,
-    };
-    return config;
+    }
+    return config
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

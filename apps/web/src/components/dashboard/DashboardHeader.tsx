@@ -10,7 +10,9 @@ export function DashboardHeader({ connected }: DashboardHeaderProps) {
     <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800/80 pb-6">
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">[SYSTEM CONSOLE]</span>
+          <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+            [SYSTEM CONSOLE]
+          </span>
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-white">Examinations Registry</h1>
         <p className="mt-1 text-xs font-mono text-zinc-400">

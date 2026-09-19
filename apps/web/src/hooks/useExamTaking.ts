@@ -16,7 +16,7 @@ export function useExamTaking(examId: string) {
   const [step, setStep] = useState<SubmissionStep>('locked')
   const [isDecrypting, setIsDecrypting] = useState(false)
   const [questions, setQuestions] = useState<Question[]>(
-    MOCK_QUESTIONS_BY_EXAM[examId] ?? DEFAULT_QUESTIONS
+    MOCK_QUESTIONS_BY_EXAM[examId] ?? DEFAULT_QUESTIONS,
   )
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [answerHash, setAnswerHash] = useState<string>('')
@@ -126,15 +126,11 @@ export function useExamTaking(examId: string) {
         const programId = new PublicKey(PROGRAM_ID)
         const [examStatePDA] = PublicKey.findProgramAddressSync(
           [Buffer.from(SEEDS.EXAM_STATE), Buffer.from(examId)],
-          programId
+          programId,
         )
         const [answerRecordPDA] = PublicKey.findProgramAddressSync(
-          [
-            Buffer.from(SEEDS.ANSWER_RECORD),
-            examStatePDA.toBuffer(),
-            publicKey.toBuffer(),
-          ],
-          programId
+          [Buffer.from(SEEDS.ANSWER_RECORD), examStatePDA.toBuffer(), publicKey.toBuffer()],
+          programId,
         )
 
         const tx = new Transaction().add(
@@ -146,7 +142,7 @@ export function useExamTaking(examId: string) {
               { pubkey: answerRecordPDA, isSigner: false, isWritable: true },
             ],
             data: Buffer.from([]), // submit_answer_hash instruction data
-          })
+          }),
         )
 
         const { blockhash } = await connection.getLatestBlockhash()

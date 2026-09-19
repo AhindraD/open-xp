@@ -20,9 +20,7 @@ export function ExamHeader({
           <h1 className="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-white">
             {examId}
           </h1>
-          <p className="mt-2 text-xs text-zinc-400 max-w-2xl leading-relaxed">
-            {description}
-          </p>
+          <p className="mt-2 text-xs text-zinc-400 max-w-2xl leading-relaxed">{description}</p>
         </div>
         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none bg-zinc-900 border border-zinc-700 text-zinc-200">
           <FileText className="h-6 w-6 text-zinc-300" />

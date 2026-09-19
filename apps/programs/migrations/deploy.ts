@@ -1,2 +1,2 @@
--- Intentionally blank.
--- Used by Anchor for cross-compilation.
+// Intentionally blank.
+// Used by Anchor for cross-compilation.

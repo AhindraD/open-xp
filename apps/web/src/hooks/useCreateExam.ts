@@ -98,7 +98,7 @@ export function useCreateExam() {
       const programId = new PublicKey(PROGRAM_ID)
       const [examStatePDA] = PublicKey.findProgramAddressSync(
         [Buffer.from(SEEDS.EXAM_STATE), Buffer.from(examId)],
-        programId
+        programId,
       )
 
       try {
@@ -111,7 +111,7 @@ export function useCreateExam() {
               { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
             ],
             data: Buffer.from([]),
-          })
+          }),
         )
 
         const { blockhash } = await connection.getLatestBlockhash()

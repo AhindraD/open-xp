@@ -26,7 +26,7 @@ const KMS_KEY_ID = process.env["KMS_KEY_ID"] ?? "";
  * 6. Returns S3 URI and metadata for on-chain anchoring via Anchor initialize_exam
  */
 export const handler = async (
-  event: APIGatewayProxyEventV2
+  event: APIGatewayProxyEventV2,
 ): Promise<APIGatewayProxyResultV2> => {
   try {
     const body = JSON.parse(event.body ?? "{}");
@@ -63,7 +63,7 @@ export const handler = async (
 
     const plaintextKey = Buffer.from(keyResponse.Plaintext);
     const ciphertextBlob = Buffer.from(keyResponse.CiphertextBlob).toString(
-      "base64"
+      "base64",
     );
 
     // 2. Encrypt paper content in-memory using AES-256-GCM
@@ -93,7 +93,7 @@ export const handler = async (
         Key: s3Key,
         Body: JSON.stringify(encryptedPayload),
         ContentType: "application/json",
-      })
+      }),
     );
 
     // 4. Save metadata and KMS ciphertext blob to DynamoDB
@@ -114,7 +114,7 @@ export const handler = async (
           created_at: now,
           is_live: false,
         },
-      })
+      }),
     );
 
     return {

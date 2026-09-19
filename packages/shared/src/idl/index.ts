@@ -90,19 +90,71 @@ export const OPEN_XP_IDL = {
     },
   ],
   errors: [
-    { code: 6000, name: "ExamNotLive", msg: "Exam is not live — waiting for examiner approvals" },
-    { code: 6001, name: "AlreadyApproved", msg: "This examiner has already approved the exam" },
-    { code: 6002, name: "NotAnExaminer", msg: "Signer is not an authorized examiner for this exam" },
-    { code: 6003, name: "ExamAlreadyLive", msg: "Exam is already live — cannot approve again" },
-    { code: 6004, name: "InvalidThreshold", msg: "Invalid threshold — must be >= 1 and <= number of examiners" },
-    { code: 6005, name: "AnswerAlreadySubmitted", msg: "Answer has already been submitted for this exam" },
-    { code: 6006, name: "InvalidExamId", msg: "Invalid exam ID — must be non-empty and <= 64 characters" },
-    { code: 6007, name: "ExaminerLimitExceeded", msg: "Examiner limit exceeded — maximum 10 examiners per exam" },
-    { code: 6008, name: "InvalidAnswerHash", msg: "Invalid answer hash — must be a 64-character hex string (SHA-256)" },
-    { code: 6009, name: "Unauthorized", msg: "Unauthorized — only the exam authority can perform this action" },
-    { code: 6010, name: "InvalidS3Uri", msg: "Invalid S3 URI — must be <= 128 characters" },
-    { code: 6011, name: "InvalidEvaluationHash", msg: "Invalid evaluation hash — must be a 64-character hex string (SHA-256)" },
-    { code: 6012, name: "AlreadyEvaluated", msg: "Answer has already been evaluated" },
+    {
+      code: 6000,
+      name: "ExamNotLive",
+      msg: "Exam is not live — waiting for examiner approvals",
+    },
+    {
+      code: 6001,
+      name: "AlreadyApproved",
+      msg: "This examiner has already approved the exam",
+    },
+    {
+      code: 6002,
+      name: "NotAnExaminer",
+      msg: "Signer is not an authorized examiner for this exam",
+    },
+    {
+      code: 6003,
+      name: "ExamAlreadyLive",
+      msg: "Exam is already live — cannot approve again",
+    },
+    {
+      code: 6004,
+      name: "InvalidThreshold",
+      msg: "Invalid threshold — must be >= 1 and <= number of examiners",
+    },
+    {
+      code: 6005,
+      name: "AnswerAlreadySubmitted",
+      msg: "Answer has already been submitted for this exam",
+    },
+    {
+      code: 6006,
+      name: "InvalidExamId",
+      msg: "Invalid exam ID — must be non-empty and <= 64 characters",
+    },
+    {
+      code: 6007,
+      name: "ExaminerLimitExceeded",
+      msg: "Examiner limit exceeded — maximum 10 examiners per exam",
+    },
+    {
+      code: 6008,
+      name: "InvalidAnswerHash",
+      msg: "Invalid answer hash — must be a 64-character hex string (SHA-256)",
+    },
+    {
+      code: 6009,
+      name: "Unauthorized",
+      msg: "Unauthorized — only the exam authority can perform this action",
+    },
+    {
+      code: 6010,
+      name: "InvalidS3Uri",
+      msg: "Invalid S3 URI — must be <= 128 characters",
+    },
+    {
+      code: 6011,
+      name: "InvalidEvaluationHash",
+      msg: "Invalid evaluation hash — must be a 64-character hex string (SHA-256)",
+    },
+    {
+      code: 6012,
+      name: "AlreadyEvaluated",
+      msg: "Answer has already been evaluated",
+    },
   ],
 } as const;
 

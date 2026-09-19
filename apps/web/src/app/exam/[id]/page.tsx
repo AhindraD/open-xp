@@ -54,16 +54,10 @@ export default function ExamPage() {
             <ExamStepIndicator currentStep={step} />
 
             {step === 'locked' ? (
-              <ExamLockedState
-                isDecrypting={isDecrypting}
-                onDecrypt={handleDecryptPaper}
-              />
+              <ExamLockedState isDecrypting={isDecrypting} onDecrypt={handleDecryptPaper} />
             ) : step === 'complete' ? (
               <div className="space-y-8">
-                <ExamSubmissionReceipt
-                  answerHash={answerHash}
-                  txSignature={txSignature}
-                />
+                <ExamSubmissionReceipt answerHash={answerHash} txSignature={txSignature} />
                 <ExamAIEvaluation
                   evaluation={evaluation}
                   isEvaluating={isEvaluating}

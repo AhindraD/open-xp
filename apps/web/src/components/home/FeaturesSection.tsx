@@ -50,9 +50,7 @@ export function FeaturesSection() {
             <h3 className="mb-3 text-lg font-bold tracking-tight text-white">{feature.title}</h3>
 
             {/* Description */}
-            <p className="text-xs text-zinc-400 leading-relaxed font-sans">
-              {feature.description}
-            </p>
+            <p className="text-xs text-zinc-400 leading-relaxed font-sans">{feature.description}</p>
           </div>
         ))}
       </div>
