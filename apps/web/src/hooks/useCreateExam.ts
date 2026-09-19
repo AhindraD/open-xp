@@ -67,8 +67,9 @@ export function useCreateExam() {
       toast.info('Step 1/2: KMS Envelope Encryption...')
 
       let s3Uri = `s3://open-xp-exams/${examId}/paper.enc.json`
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
       try {
-        const res = await fetch('http://localhost:3000/exam/create', {
+        const res = await fetch(`${apiUrl}/exam/create`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

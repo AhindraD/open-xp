@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsup",
-    "dev": "sam local start-api",
+    "dev": "sam local start-api --port 3001",
     "validate": "sam validate",
     "deploy": "sam build && sam deploy --guided",
     "lint": "eslint . --max-warnings 0",

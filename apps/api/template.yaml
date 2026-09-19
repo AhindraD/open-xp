@@ -210,7 +210,7 @@ Resources:
     Type: AWS::Serverless::StateMachine
     Properties:
       Name: !Sub "OpenXpGradingPipeline-${Stage}"
-      DefinitionBody:
+      Definition:
         Comment: "Open-XP exam grading pipeline orchestrating Bedrock evaluations"
         StartAt: EvaluateExam
         States:

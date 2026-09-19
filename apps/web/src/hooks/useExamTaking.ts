@@ -34,8 +34,9 @@ export function useExamTaking(examId: string) {
       toast.info('Requesting KMS Data Key release from API Gateway...')
 
       let decryptedText = ''
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
       try {
-        const res = await fetch('http://localhost:3000/exam/key', {
+        const res = await fetch(`${apiUrl}/exam/key`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -101,7 +102,8 @@ export function useExamTaking(examId: string) {
       setAnswerHash(calculatedHash)
 
       try {
-        await fetch('http://localhost:3000/exam/submit', {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+        await fetch(`${apiUrl}/exam/submit`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
