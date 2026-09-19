@@ -1,0 +1,207 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Open-XP Trustless Exam System — AWS Serverless Backend
+  Provides exam key distribution, answer submission, and AI-powered grading.
+
+Globals:
+  Function:
+    Runtime: nodejs20.x
+    Timeout: 30
+    MemorySize: 256
+    Environment:
+      Variables:
+        EXAM_TABLE_NAME: !Ref ExamTable
+        EXAM_BUCKET_NAME: !Ref ExamBucket
+        KMS_KEY_ID: !Ref ExamKMSKey
+        SOLANA_RPC_URL: "https://api.devnet.solana.com"
+        SOLANA_PROGRAM_ID: "oxpEXAM1111111111111111111111111111111111111"
+
+Parameters:
+  Stage:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+
+Resources:
+  # ─── API Gateway ───────────────────────────────────────────────
+  OpenXpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: !Ref Stage
+      CorsConfiguration:
+        AllowOrigins:
+          - "*"
+        AllowMethods:
+          - GET
+          - POST
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+          - Authorization
+          - X-Amz-Date
+          - X-Api-Key
+
+  # ─── DynamoDB Table ────────────────────────────────────────────
+  ExamTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "OpenXpExamTable-${Stage}"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: exam_id
+          AttributeType: S
+        - AttributeName: student_wallet
+          AttributeType: S
+      KeySchema:
+        - AttributeName: exam_id
+          KeyType: HASH
+        - AttributeName: student_wallet
+          KeyType: RANGE
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      SSESpecification:
+        SSEEnabled: true
+
+  # ─── S3 Bucket for Encrypted Exam Papers ───────────────────────
+  ExamBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "open-xp-exams-${Stage}-${AWS::AccountId}"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: aws:kms
+              KMSMasterKeyID: !Ref ExamKMSKey
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration:
+        Status: Enabled
+
+  # ─── KMS Key for Exam Encryption ──────────────────────────────
+  ExamKMSKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: "KMS key for Open-XP exam paper encryption"
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowRootAccess
+            Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "kms:*"
+            Resource: "*"
+          - Sid: AllowLambdaAccess
+            Effect: Allow
+            Principal:
+              AWS:
+                - !GetAtt FetchExamKeyFunctionRole.Arn
+            Action:
+              - "kms:GenerateDataKey"
+              - "kms:Decrypt"
+            Resource: "*"
+
+  ExamKMSKeyAlias:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: !Sub "alias/open-xp-exam-key-${Stage}"
+      TargetKeyId: !Ref ExamKMSKey
+
+  # ─── Lambda Functions ─────────────────────────────────────────
+  FetchExamKeyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: fetch-exam-key.handler
+      CodeUri: dist/
+      Description: "Checks Solana ExamState PDA is_live, returns KMS data key"
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref OpenXpApi
+            Path: /exam/key
+            Method: POST
+      Policies:
+        - KMSGenerateDataKeyPolicy:
+            KeyId: !Ref ExamKMSKey
+        - DynamoDBReadPolicy:
+            TableName: !Ref ExamTable
+
+  SubmitAnswersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: submit-answers.handler
+      CodeUri: dist/
+      Description: "Receives JSON answers, stores in DynamoDB, returns SHA-256 hash"
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref OpenXpApi
+            Path: /exam/submit
+            Method: POST
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ExamTable
+
+  EvaluateExamFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: evaluate-exam.handler
+      CodeUri: dist/
+      Description: "Step Function target: grades answers using Bedrock Claude 3.5 Sonnet"
+      Timeout: 120
+      MemorySize: 512
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ExamTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - "bedrock:InvokeModel"
+              Resource: "*"
+
+  # ─── Step Function for Grading Pipeline ────────────────────────
+  EvaluateExamStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Name: !Sub "OpenXpGradingPipeline-${Stage}"
+      DefinitionBody:
+        Comment: "Open-XP exam grading pipeline"
+        StartAt: EvaluateExam
+        States:
+          EvaluateExam:
+            Type: Task
+            Resource: !GetAtt EvaluateExamFunction.Arn
+            End: true
+      Policies:
+        - LambdaInvokePolicy:
+            FunctionName: !Ref EvaluateExamFunction
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${OpenXpApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}"
+
+  ExamTableName:
+    Description: "DynamoDB table name"
+    Value: !Ref ExamTable
+
+  ExamBucketName:
+    Description: "S3 bucket name for exam papers"
+    Value: !Ref ExamBucket
+
+  KMSKeyId:
+    Description: "KMS key ID for exam encryption"
+    Value: !Ref ExamKMSKey
+
+  GradingStateMachineArn:
+    Description: "Step Function ARN for grading pipeline"
+    Value: !Ref EvaluateExamStateMachine
