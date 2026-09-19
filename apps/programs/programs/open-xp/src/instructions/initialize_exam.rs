@@ -28,6 +28,7 @@ impl<'info> InitializeExam<'info> {
         exam_id: String,
         threshold: u8,
         examiners: Vec<Pubkey>,
+        s3_uri: String,
         bumps: &InitializeExamBumps,
     ) -> Result<()> {
         // Validate exam ID is not empty
@@ -35,6 +36,12 @@ impl<'info> InitializeExam<'info> {
         require!(
             exam_id.len() <= MAX_EXAM_ID_LENGTH,
             OpenXpError::InvalidExamId
+        );
+
+        // Validate S3 URI length
+        require!(
+            s3_uri.len() <= MAX_S3_URI_LENGTH,
+            OpenXpError::InvalidS3Uri
         );
 
         // Validate examiner list
@@ -64,6 +71,7 @@ impl<'info> InitializeExam<'info> {
             current_approvals: Vec::new(),
             is_live: false,
             result_hash: String::new(),
+            s3_uri,
             created_at: clock.unix_timestamp,
             bump: bumps.exam_state,
         });

@@ -22,6 +22,19 @@ pub struct AnswerRecord {
     /// Unix timestamp when the answer was submitted
     pub submitted_at: i64,
 
+    /// SHA-256 hash of the Bedrock evaluation result (score + justification)
+    #[max_len(64)]
+    pub evaluation_hash: String,
+
+    /// Final AI grade (0-100)
+    pub score: u8,
+
+    /// Unix timestamp when the evaluation was recorded
+    pub evaluated_at: i64,
+
+    /// Whether this submission has been evaluated
+    pub is_evaluated: bool,
+
     /// PDA bump seed
     pub bump: u8,
 }

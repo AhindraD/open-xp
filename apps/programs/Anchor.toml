@@ -5,10 +5,10 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-open_xp = "oxpEXAM1111111111111111111111111111111111111"
+open_xp = "7KjAvFx41EYsThCnMGkk5UFbze2aHjwXWxMHqm56bz8y"
 
 [programs.devnet]
-open_xp = "oxpEXAM1111111111111111111111111111111111111"
+open_xp = "7KjAvFx41EYsThCnMGkk5UFbze2aHjwXWxMHqm56bz8y"
 
 [registry]
 url = "https://api.apr.dev"

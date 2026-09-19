@@ -8,13 +8,13 @@ pub mod state;
 
 use instructions::*;
 
-declare_id!("oxpEXAM1111111111111111111111111111111111111");
+declare_id!("7KjAvFx41EYsThCnMGkk5UFbze2aHjwXWxMHqm56bz8y");
 
 #[program]
 pub mod open_xp {
     use super::*;
 
-    /// Initialize a new exam with a multi-sig threshold.
+    /// Initialize a new exam with a multi-sig threshold and encrypted paper S3 URI.
     ///
     /// Creates an `ExamState` PDA that tracks examiner approvals
     /// and gates access to encrypted exam content.
@@ -23,9 +23,10 @@ pub mod open_xp {
         exam_id: String,
         threshold: u8,
         examiners: Vec<Pubkey>,
+        s3_uri: String,
     ) -> Result<()> {
         ctx.accounts
-            .initialize_exam(exam_id, threshold, examiners, &ctx.bumps)
+            .initialize_exam(exam_id, threshold, examiners, s3_uri, &ctx.bumps)
     }
 
     /// Approve an exam as an authorized examiner.
@@ -48,5 +49,17 @@ pub mod open_xp {
     ) -> Result<()> {
         ctx.accounts
             .submit_answer_hash(answer_hash, &ctx.bumps)
+    }
+
+    /// Anchor a Bedrock AI evaluation result (score + justification hash) on-chain.
+    ///
+    /// Called by the authority/backend grading wallet to guarantee
+    /// immutable, tamper-proof academic grading receipts.
+    pub fn record_evaluation(
+        ctx: Context<RecordEvaluation>,
+        evaluation_hash: String,
+        score: u8,
+    ) -> Result<()> {
+        ctx.accounts.record_evaluation(evaluation_hash, score)
     }
 }

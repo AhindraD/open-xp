@@ -5,7 +5,7 @@
  */
 
 /** Solana program ID — update after `anchor deploy` */
-export const PROGRAM_ID = "oxpEXAM1111111111111111111111111111111111111";
+export const PROGRAM_ID = "7KjAvFx41EYsThCnMGkk5UFbze2aHjwXWxMHqm56bz8y";
 
 /** PDA seed constants (must match Anchor program) */
 export const SEEDS = {
@@ -22,8 +22,10 @@ export const SOLANA_RPC_URL = "https://api.devnet.solana.com";
 
 /** API Gateway paths */
 export const API_PATHS = {
+  CREATE_EXAM: "/exam/create",
   FETCH_EXAM_KEY: "/exam/key",
   SUBMIT_ANSWERS: "/exam/submit",
+  EVALUATE_EXAM: "/exam/evaluate",
   GET_RESULTS: "/exam/results",
 } as const;
 

@@ -2,6 +2,7 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: [
+    "src/handlers/create-exam.ts",
     "src/handlers/fetch-exam-key.ts",
     "src/handlers/submit-answers.ts",
     "src/handlers/evaluate-exam.ts",

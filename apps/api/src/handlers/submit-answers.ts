@@ -34,7 +34,7 @@ export const handler = async (
       };
     }
 
-    const { examId, studentWallet, answers } = parsed.data;
+    const { examId, studentWallet, answers, attachments } = parsed.data;
     const now = Math.floor(Date.now() / 1000);
 
     // Compute SHA-256 hash of the answers JSON
@@ -52,6 +52,7 @@ export const handler = async (
           exam_id: examId,
           student_wallet: studentWallet,
           answers,
+          attachments: attachments ?? [],
           answer_hash: answerHash,
           submitted_at: now,
           graded: false,

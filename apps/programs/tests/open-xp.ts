@@ -62,9 +62,10 @@ describe("open-xp", () => {
         examiner3.publicKey,
       ];
       const threshold = 2;
+      const s3Uri = "s3://open-xp-exams/CS101-FINAL-2026/paper.enc.json";
 
       await program.methods
-        .initializeExam(examId, threshold, examiners)
+        .initializeExam(examId, threshold, examiners, s3Uri)
         .accounts({
           authority: authority.publicKey,
           examState: examStatePDA,
@@ -72,7 +73,7 @@ describe("open-xp", () => {
         })
         .rpc();
 
-      const examState = await program.account.examState.fetch(examStatePDA);
+      const examState = await (program.account as any).examState.fetch(examStatePDA);
 
       expect(examState.examId).to.equal(examId);
       expect(examState.authority.toBase58()).to.equal(
@@ -83,6 +84,7 @@ describe("open-xp", () => {
       expect(examState.currentApprovals).to.have.length(0);
       expect(examState.isLive).to.be.false;
       expect(examState.resultHash).to.equal("");
+      expect(examState.s3Uri).to.equal(s3Uri);
     });
 
     it("should fail with empty exam ID", async () => {
@@ -90,7 +92,7 @@ describe("open-xp", () => {
 
       try {
         await program.methods
-          .initializeExam("", 1, [examiner1.publicKey])
+          .initializeExam("", 1, [examiner1.publicKey], "s3://bucket/empty")
           .accounts({
             authority: authority.publicKey,
             examState: emptyPDA,
@@ -109,7 +111,7 @@ describe("open-xp", () => {
 
       try {
         await program.methods
-          .initializeExam(badExamId, 5, [examiner1.publicKey])
+          .initializeExam(badExamId, 5, [examiner1.publicKey], "s3://bucket/bad")
           .accounts({
             authority: authority.publicKey,
             examState: badPDA,
@@ -136,7 +138,7 @@ describe("open-xp", () => {
         .signers([examiner1])
         .rpc();
 
-      const examState = await program.account.examState.fetch(examStatePDA);
+      const examState = await (program.account as any).examState.fetch(examStatePDA);
       expect(examState.currentApprovals).to.have.length(1);
       expect(examState.isLive).to.be.false; // threshold is 2, only 1 approval
     });
@@ -153,7 +155,7 @@ describe("open-xp", () => {
         .signers([examiner2])
         .rpc();
 
-      const examState = await program.account.examState.fetch(examStatePDA);
+      const examState = await (program.account as any).examState.fetch(examStatePDA);
       expect(examState.currentApprovals).to.have.length(2);
       expect(examState.isLive).to.be.true; // threshold met!
     });
@@ -182,7 +184,7 @@ describe("open-xp", () => {
       const [newPDA] = getExamStatePDA(newExamId);
 
       await program.methods
-        .initializeExam(newExamId, 1, [examiner1.publicKey])
+        .initializeExam(newExamId, 1, [examiner1.publicKey], "s3://bucket/new")
         .accounts({
           authority: authority.publicKey,
           examState: newPDA,
@@ -229,7 +231,7 @@ describe("open-xp", () => {
         .rpc();
 
       const answerRecord =
-        await program.account.answerRecord.fetch(answerRecordPDA);
+        await (program.account as any).answerRecord.fetch(answerRecordPDA);
       expect(answerRecord.answerHash).to.equal(validHash);
       expect(answerRecord.student.toBase58()).to.equal(
         student.publicKey.toBase58()
@@ -237,6 +239,7 @@ describe("open-xp", () => {
       expect(answerRecord.examState.toBase58()).to.equal(
         examStatePDA.toBase58()
       );
+      expect(answerRecord.isEvaluated).to.be.false;
     });
 
     it("should fail for a non-live exam", async () => {
@@ -247,7 +250,7 @@ describe("open-xp", () => {
         .initializeExam(notLiveExamId, 2, [
           examiner1.publicKey,
           examiner2.publicKey,
-        ])
+        ], "s3://bucket/notlive")
         .accounts({
           authority: authority.publicKey,
           examState: notLivePDA,
@@ -329,6 +332,79 @@ describe("open-xp", () => {
       } catch (_err) {
         // Account already initialized — Anchor will throw
         expect(true).to.be.true;
+      }
+    });
+  });
+
+  describe("record_evaluation", () => {
+    const validEvaluationHash = "b".repeat(64);
+    const score = 92;
+
+    it("should allow exam authority to record Bedrock AI evaluation", async () => {
+      const [examStatePDA] = getExamStatePDA(examId);
+      const [answerRecordPDA] = getAnswerRecordPDA(
+        examStatePDA,
+        student.publicKey
+      );
+
+      await program.methods
+        .recordEvaluation(validEvaluationHash, score)
+        .accounts({
+          authority: authority.publicKey,
+          examState: examStatePDA,
+          answerRecord: answerRecordPDA,
+        })
+        .rpc();
+
+      const answerRecord =
+        await (program.account as any).answerRecord.fetch(answerRecordPDA);
+      expect(answerRecord.isEvaluated).to.be.true;
+      expect(answerRecord.evaluationHash).to.equal(validEvaluationHash);
+      expect(answerRecord.score).to.equal(score);
+    });
+
+    it("should reject re-evaluation of an already evaluated answer", async () => {
+      const [examStatePDA] = getExamStatePDA(examId);
+      const [answerRecordPDA] = getAnswerRecordPDA(
+        examStatePDA,
+        student.publicKey
+      );
+
+      try {
+        await program.methods
+          .recordEvaluation("c".repeat(64), 95)
+          .accounts({
+            authority: authority.publicKey,
+            examState: examStatePDA,
+            answerRecord: answerRecordPDA,
+          })
+          .rpc();
+        expect.fail("Should have rejected duplicate evaluation");
+      } catch (err: any) {
+        expect(err.error.errorCode.code).to.equal("AlreadyEvaluated");
+      }
+    });
+
+    it("should reject evaluation from unauthorized signer", async () => {
+      const [examStatePDA] = getExamStatePDA(examId);
+      const [answerRecordPDA] = getAnswerRecordPDA(
+        examStatePDA,
+        student.publicKey
+      );
+
+      try {
+        await program.methods
+          .recordEvaluation(validEvaluationHash, score)
+          .accounts({
+            authority: student.publicKey,
+            examState: examStatePDA,
+            answerRecord: answerRecordPDA,
+          })
+          .signers([student])
+          .rpc();
+        expect.fail("Should have rejected unauthorized evaluator");
+      } catch (err: any) {
+        expect(err.error.errorCode.code).to.equal("Unauthorized");
       }
     });
   });

@@ -50,6 +50,10 @@ impl<'info> SubmitAnswerHash<'info> {
             student: self.student.key(),
             answer_hash: answer_hash.clone(),
             submitted_at: clock.unix_timestamp,
+            evaluation_hash: String::new(),
+            score: 0,
+            evaluated_at: 0,
+            is_evaluated: false,
             bump: bumps.answer_record,
         });
 

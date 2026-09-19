@@ -35,6 +35,10 @@ pub struct ExamState {
     #[max_len(64)]
     pub result_hash: String,
 
+    /// S3 URI of the encrypted exam paper (e.g., "s3://bucket/exams/CS101/paper.enc.json")
+    #[max_len(128)]
+    pub s3_uri: String,
+
     /// Unix timestamp when the exam was created
     pub created_at: i64,
 

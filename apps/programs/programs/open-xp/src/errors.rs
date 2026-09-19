@@ -31,4 +31,13 @@ pub enum OpenXpError {
 
     #[msg("Unauthorized — only the exam authority can perform this action")]
     Unauthorized,
+
+    #[msg("Invalid S3 URI — must be <= 128 characters")]
+    InvalidS3Uri,
+
+    #[msg("Invalid evaluation hash — must be a 64-character hex string (SHA-256)")]
+    InvalidEvaluationHash,
+
+    #[msg("Answer has already been evaluated")]
+    AlreadyEvaluated,
 }
