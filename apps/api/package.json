@@ -20,7 +20,7 @@
     "@coral-xyz/anchor": "^0.31.1",
     "@repo/shared": "workspace:*",
     "@solana/web3.js": "^1.98.0",
-    "zod": "^3.23.8"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
